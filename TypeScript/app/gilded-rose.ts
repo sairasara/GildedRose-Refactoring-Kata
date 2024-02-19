@@ -20,15 +20,18 @@ export class GildedRose {
   readonly agedBrie = 'Aged Brie'
   readonly backstagePasses = 'Backstage passes to a TAFKAL80ETC concert'
   readonly sulfuras = 'Sulfuras, Hand of Ragnaros'
+  readonly conjured = 'Conjured Mana Cake'
 
   updateQuality() {
     for (let item of this.items) {
       if(item.name == this.agedBrie){
         this.updateAgedBrieQuality(item)
       } else if(item.name == this.backstagePasses){
-          this.updateBackstagePassesQuality(item)
+        this.updateBackstagePassesQuality(item)
       } else if(item.name == this.sulfuras) {
           // no change in quality.
+      } else if(item.name == this.conjured){
+        this.updateConjuredQuality(item)
       } else{
         this.updateNormalItemQuality(item)
       }
@@ -61,6 +64,20 @@ export class GildedRose {
     item.sellIn = item.sellIn - 1
     if (item.sellIn < 0) {
         item.quality = 0
+    }
+  }
+
+  updateConjuredQuality(item: Item){
+    if (item.quality > 0) {
+      item.quality = item.quality - 1
+    }
+    item.sellIn = item.sellIn - 1
+    if(item.sellIn < 0){
+      if(item.quality > 0){
+        item.quality = item.quality - 1
+      }else{
+        item.quality = 0
+      }
     }
   }
 
